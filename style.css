@@ -148,3 +148,28 @@ task-container {
 button:hover {
   cursor: pointer;
 }
+
+/* MODAL */
+#settings-modal {
+  top: 25vh;
+  left: 25vw;
+  position: fixed;
+
+  height: 40vh;
+  width: 50vw;
+
+  background-color: whitesmoke;
+  border-radius: 1em;
+  box-shadow: 1px 1px 8px 3px #e3e3e4;
+
+  display: none;
+  text-align: center;
+
+  padding: 2rem;
+}
+
+#close-modal-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
