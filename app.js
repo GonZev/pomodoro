@@ -1,5 +1,6 @@
 const principalTime = document.getElementById("principal-time");
 const secondaryTime = document.getElementById("secondary-time");
+const taskContainer = document.getElementById("task-container")
 
 const resetButton = document.getElementById("reset-button");
 const playButton = document.getElementById("play-button");
@@ -9,6 +10,12 @@ const settingsButton = document.getElementById('settings-button');
 const settingsModal = document.getElementById('settings-modal');
 const timeForm = document.getElementById('time-form');
 const closeModalButton = document.getElementById('close-modal-button');
+
+const arrowTask = document.getElementById('arrow-task');
+const addTaskButton = document.getElementById('add-task-button');
+const taskModal = document.getElementById('task-modal');
+const taskForm = document.getElementById('task-form');
+const closeTaskModalButton = document.getElementById('close-modal-task-button');
 
 // minutes default
 let minutesFocus = 45;
@@ -126,11 +133,16 @@ function resetTime() {
 }
 
 
-function switchSettings(display) {
-  settingsModal.style.display = display;
+function switchSettings(display, modal) {
+  if (modal == 'settings-modal') {
+    settingsModal.style.display = display;
+  }
+  if (modal == 'task-modal') {
+    taskModal.style.display = display;
+  }
 }
 
-function getData(event) {
+function getDataTime(event) {
   event.preventDefault();
 
   const data = new FormData(timeForm);
@@ -143,17 +155,77 @@ function getData(event) {
   secondsRemainingBreak = toSeconds(breakTime);
   principalTime.textContent = formatHour(secondsRemaining);
   secondaryTime.textContent = formatHour(secondsRemainingBreak);
-  switchSettings('none');
+  switchSettings('none', 'settings-modal');
 
 }
 
+function expandTask() {
+  taskContainer.classList.toggle("expand");
+  if (arrowTask.textContent == 'arrow_back_ios') {
+    arrowTask.textContent = 'arrow_forward_ios';
+  } else {
+    arrowTask.textContent = 'arrow_back_ios';
+  }
+
+}
+
+function getDataTask(event) {
+  event.preventDefault();
+
+  const data = new FormData(taskForm);
+  const description = data.get('description');
+  addTask(description);
+
+  switchSettings('none', 'task-modal')
+}
+
+function addTask(textDescription) {
+  let tableTask = document.getElementById('table-task-container')
+  let item = document.createElement("div");
+  item.classList.add('item-task');
+  const id = `done-${Math.random().toString(36).substring(2, 9)}`;
+  // 2. Crear el input (radio button)
+  const inputRadio = document.createElement('input');
+  inputRadio.type = 'radio';
+  inputRadio.id = id;
+  inputRadio.name = 'check'; // Usa el mismo nombre para agrupar los radios
+  inputRadio.value = 'done';
+
+  // 3. Crear el label
+  const label = document.createElement('label');
+  label.htmlFor = id; // Asocia el label con el ID único del input
+  label.textContent = `${textDescription}`;
+
+  const button = document.createElement('button');
+  button.classList.add('delete-button');
+  button.textContent = 'X';
+  button.addEventListener('click', () => { deleteTask(button) });
+
+  // 4. Montar la estructura: Añadir input y label al divTask
+  item.appendChild(inputRadio);
+  item.appendChild(label);
+  item.appendChild(button)
+
+  // 5. Añadir el divTask completo al contenedor padre
+  tableTask.appendChild(item);
+}
+
+function deleteTask(button) {
+  const elementChildToDelete = button.parentElement;
+  const parentOfChild = elementChildToDelete.parentElement;
+  parentOfChild.removeChild(elementChildToDelete);
+}
 
 principalTime.textContent = formatHour(secondsRemaining);
 secondaryTime.textContent = formatHour(secondsRemainingBreak);
 
-timeForm.addEventListener('submit', getData);
-settingsButton.addEventListener('click', () => { switchSettings('block') });
-closeModalButton.addEventListener('click', () => { switchSettings('none') });
+timeForm.addEventListener('submit', getDataTime);
+settingsButton.addEventListener('click', () => { switchSettings('block', 'settings-modal') });
+closeModalButton.addEventListener('click', () => { switchSettings('none', 'settings-modal') });
 resetButton.addEventListener('click', resetTime);
 playButton.addEventListener('click', startCountdown);
+arrowTask.addEventListener('click', expandTask);
+addTaskButton.addEventListener('click', () => { switchSettings('block', 'task-modal') });
+closeTaskModalButton.addEventListener('click', () => { switchSettings('none', 'task-modal') });
+taskForm.addEventListener('submit', getDataTask);
 // startCountdown();

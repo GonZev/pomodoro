@@ -34,12 +34,10 @@ header {
 }
 
 main {
-  display: grid;
-  height: 50vh;
-  grid-template-columns: minmax(50vw, 2fr) 1fr;
-  gap: 2em;
-
-  padding: 2em
+  display: flex;
+  height: 80vh;
+  gap: 1rem;
+  padding: 1em;
 }
 
 .main-container {
@@ -54,8 +52,8 @@ main {
 #time-container {
   display: grid;
   grid-template-rows: 1fr 3fr 1fr;
+  flex-grow: 1;
 
-  height: 100%;
 }
 
 #settings {
@@ -119,27 +117,106 @@ main {
   }
 }
 
-task-container {
-  height: 100%;
+
+/* TASK CONTAINER */
+
+#task-container {
+  height: 5vh;
+  width: auto;
+  aspect-ratio: 1 / 1;
+
   text-align: center;
 
-  button {
+  /* position: fixed; */
+  right: 1rem;
+
+  #add-task-button {
     margin: auto;
-    width: 60%;
+    width: 50%;
+    height: 8%;
 
     border: none;
     border-radius: .5em;
 
     background-color: #ef4444;
+    color: whitesmoke;
+    font-weight: bold;
+    font-size: 1rem;
+
+    display: none;
   }
+
+  hr {
+    display: none;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1rem;
+    display: inline;
+  }
+
+  div {
+    display: none;
+  }
+}
+
+#task-container.expand {
+  height: 70vh;
+  width: 24vw;
+
+  #add-task-button {
+    display: block;
+  }
+
+  hr {
+    display: block;
+  }
+
+  h2 {
+    font-size: 2rem;
+    display: inline;
+  }
+
+  div {
+    display: block;
+  }
+}
+
+#arrow-task {
+  background: none;
+  color: #ef4444;
+
+  border: none;
+  display: inline;
+  font-weight: bolder;
 }
 
 #table-task-container {
   border: 1px solid black;
 }
 
-#item-task {
+.item-task {
   text-align: left;
+  padding: .5rem;
+  margin: .3rem;
+
+  border: 1px solid blue;
+
+  input {
+    margin: 10px;
+  }
+
+  button {
+    margin: 10px;
+    visibility: hidden;
+  }
+}
+
+.item-task:hover {
+  button {
+    visibility: visible;
+  }
 }
 
 
@@ -150,7 +227,7 @@ button:hover {
 }
 
 /* MODAL */
-#settings-modal {
+.modal {
   top: 25vh;
   left: 25vw;
   position: fixed;
