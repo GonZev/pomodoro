@@ -8,6 +8,7 @@ const iconPlayButton = playButton.querySelector(".material-icons");
 
 const settingsButton = document.getElementById('settings-button');
 const settingsModal = document.getElementById('settings-modal');
+
 const timeForm = document.getElementById('time-form');
 const closeModalButton = document.getElementById('close-modal-button');
 
@@ -133,15 +134,6 @@ function resetTime() {
 }
 
 
-function switchSettings(display, modal) {
-  if (modal == 'settings-modal') {
-    settingsModal.style.display = display;
-  }
-  if (modal == 'task-modal') {
-    taskModal.style.display = display;
-  }
-}
-
 function getDataTime(event) {
   event.preventDefault();
 
@@ -159,6 +151,8 @@ function getDataTime(event) {
 
 }
 
+// NOTE:TASK
+
 function expandTask() {
   taskContainer.classList.toggle("expand");
   if (arrowTask.textContent == 'arrow_back_ios') {
@@ -174,6 +168,7 @@ function getDataTask(event) {
 
   const data = new FormData(taskForm);
   const description = data.get('description');
+  // TODO: save tasks in array and create from this.
   addTask(description);
 
   switchSettings('none', 'task-modal')
@@ -214,6 +209,18 @@ function deleteTask(button) {
   const elementChildToDelete = button.parentElement;
   const parentOfChild = elementChildToDelete.parentElement;
   parentOfChild.removeChild(elementChildToDelete);
+}
+
+
+// NOTE:GENERALS FUNCTION
+
+function switchSettings(display, modal) {
+  if (modal == 'settings-modal') {
+    settingsModal.style.display = display;
+  }
+  if (modal == 'task-modal') {
+    taskModal.style.display = display;
+  }
 }
 
 principalTime.textContent = formatHour(secondsRemaining);

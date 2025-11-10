@@ -220,7 +220,7 @@ main {
 }
 
 
-/* NOTE: change appearance of button radio */
+/* TODO: change appearance of button radio */
 
 button:hover {
   cursor: pointer;
@@ -245,8 +245,41 @@ button:hover {
   padding: 2rem;
 }
 
-#close-modal-button {
+#close-modal-button,
+#close-modal-task-button {
   position: absolute;
   top: 1rem;
   right: 1rem;
+
+  background: none;
+  border: none;
+
+  font-size: 1rem;
+  color: #ef4444;
+}
+
+.modal div {
+  margin: 1rem;
+}
+
+
+.submit-button {
+  position: absolute;
+  bottom: 1rem;
+  left: 20%;
+
+  background-color: #ef4444;
+  color: whitesmoke;
+
+  border: none;
+  border-radius: 1rem;
+
+  width: 60%;
+  height: 4vh;
+
+  font-size: minmax(1rem, 1.5rem);
+  font-weight: bold;
+
+  /* padding: auto; */
+  margin: 0 auto;
 }
