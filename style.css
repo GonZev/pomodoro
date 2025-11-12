@@ -181,6 +181,10 @@ main {
   div {
     display: block;
   }
+
+  #pagination-container {
+    display: inline-flex;
+  }
 }
 
 #arrow-task {
@@ -217,6 +221,19 @@ main {
   button {
     visibility: visible;
   }
+}
+
+#pagination-container {
+  margin: 1rem auto;
+  background-color: green;
+
+  display: block;
+
+}
+
+#pages-container {
+  background-color: blue;
+  display: inline-block;
 }
 
 

@@ -94,7 +94,6 @@ function formatHour(seconds) {
   if (minutesRemaining >= 60) {
     hours = Math.floor(minutesRemaining / 60);
     minutesRemaining = minutesRemaining % 60;
-    console.log(minutesRemaining)
     hoursFormat = String(hours).padStart(2, '0');
     minutesFormat = String(minutesRemaining).padStart(2, '0');
     secondsFormat = String(secondsOfminutes).padStart(2, '0');
@@ -169,12 +168,20 @@ function getDataTask(event) {
 
   const data = new FormData(taskForm);
   const description = data.get('description');
-  addTask(description);
+  const identifier = crypto.randomUUID();
+  if (arrayTask.some(task => task.id == identifier)) {
+  } else {
+    arrayTask.push(new itemTask(description, identifier))
+    if (arrayTask.length <= 5) {
+      const item = arrayTask.at(-1);
+      addTask(item.description, item.id);
+    }
+  }
 
-  switchSettings('none', 'task-modal')
+  switchSettings('none', 'task-modal');
 }
 
-function addTask(textDescription) {
+function addTask(textDescription, identifierItem) {
   let tableTask = document.getElementById('table-task-container')
   let item = document.createElement("div");
   item.classList.add('item-task');
@@ -193,15 +200,13 @@ function addTask(textDescription) {
   const button = document.createElement('button');
   button.classList.add('delete-button');
   button.textContent = 'X';
-  button.addEventListener('click', () => { deleteTask(button, idItemTask) });
+  button.addEventListener('click', () => { deleteTask(button, identifierItem) });
 
   item.appendChild(inputRadio);
   item.appendChild(label);
   item.appendChild(button)
 
   tableTask.appendChild(item);
-  arrayTask.push(new itemTask(textDescription, idItemTask))
-  console.log(arrayTask);
 }
 
 function deleteTask(button, identifier) {
@@ -210,7 +215,6 @@ function deleteTask(button, identifier) {
   parentOfChild.removeChild(elementChildToDelete);
   // necesito el id del item que voy a borrar
   arrayTask = arrayTask.filter(item => item.id != identifier);
-  console.log(arrayTask);
 }
 
 // NOTE:GENERALS FUNCTION
@@ -230,6 +234,14 @@ function switchSettings(display, modal) {
 // - los botones para anterior o siguiente pagina siempre apareceran.
 // - los botones de paginacion estaran deshabilitados si son menos de 5 items.
 // - la logica se debe realizar junto al boton de "aceptar" del modal de crear tareas.
+
+function changePage() {
+
+}
+
+function buildItems() {
+
+}
 
 // NOTE: INIT
 principalTime.textContent = formatHour(secondsRemaining);
