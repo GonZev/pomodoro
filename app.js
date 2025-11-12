@@ -28,6 +28,8 @@ let secondsRemainingBreak = 60 * minutesBreak;
 let intervalFocusID;
 let intervalBreakID;
 
+let arrayTask = [];
+
 function startCountdown() {
   // Solo inicia si no hay un intervalo ya corriendo
   if (intervalFocusID) {
@@ -133,7 +135,6 @@ function resetTime() {
   }
 }
 
-
 function getDataTime(event) {
   event.preventDefault();
 
@@ -168,7 +169,6 @@ function getDataTask(event) {
 
   const data = new FormData(taskForm);
   const description = data.get('description');
-  // TODO: save tasks in array and create from this.
   addTask(description);
 
   switchSettings('none', 'task-modal')
@@ -178,39 +178,40 @@ function addTask(textDescription) {
   let tableTask = document.getElementById('table-task-container')
   let item = document.createElement("div");
   item.classList.add('item-task');
-  const id = `done-${Math.random().toString(36).substring(2, 9)}`;
-  // 2. Crear el input (radio button)
+  const idItemTask = `done-${Math.random().toString(36).substring(2, 9)}`;
+
   const inputRadio = document.createElement('input');
   inputRadio.type = 'radio';
-  inputRadio.id = id;
+  inputRadio.id = idItemTask;
   inputRadio.name = 'check'; // Usa el mismo nombre para agrupar los radios
   inputRadio.value = 'done';
 
-  // 3. Crear el label
   const label = document.createElement('label');
-  label.htmlFor = id; // Asocia el label con el ID único del input
+  label.htmlFor = idItemTask; // Asocia el label con el ID único del input
   label.textContent = `${textDescription}`;
 
   const button = document.createElement('button');
   button.classList.add('delete-button');
   button.textContent = 'X';
-  button.addEventListener('click', () => { deleteTask(button) });
+  button.addEventListener('click', () => { deleteTask(button, idItemTask) });
 
-  // 4. Montar la estructura: Añadir input y label al divTask
   item.appendChild(inputRadio);
   item.appendChild(label);
   item.appendChild(button)
 
-  // 5. Añadir el divTask completo al contenedor padre
   tableTask.appendChild(item);
+  arrayTask.push(new itemTask(textDescription, idItemTask))
+  console.log(arrayTask);
 }
 
-function deleteTask(button) {
+function deleteTask(button, identifier) {
   const elementChildToDelete = button.parentElement;
   const parentOfChild = elementChildToDelete.parentElement;
   parentOfChild.removeChild(elementChildToDelete);
+  // necesito el id del item que voy a borrar
+  arrayTask = arrayTask.filter(item => item.id != identifier);
+  console.log(arrayTask);
 }
-
 
 // NOTE:GENERALS FUNCTION
 
@@ -223,6 +224,14 @@ function switchSettings(display, modal) {
   }
 }
 
+// TODO: MAKE PAGINATION FOR TASKS
+// NOTE: LOGICA DE PAGINACION
+// - limitar a 5 items por pagina.
+// - los botones para anterior o siguiente pagina siempre apareceran.
+// - los botones de paginacion estaran deshabilitados si son menos de 5 items.
+// - la logica se debe realizar junto al boton de "aceptar" del modal de crear tareas.
+
+// NOTE: INIT
 principalTime.textContent = formatHour(secondsRemaining);
 secondaryTime.textContent = formatHour(secondsRemainingBreak);
 
@@ -235,4 +244,11 @@ arrowTask.addEventListener('click', expandTask);
 addTaskButton.addEventListener('click', () => { switchSettings('block', 'task-modal') });
 closeTaskModalButton.addEventListener('click', () => { switchSettings('none', 'task-modal') });
 taskForm.addEventListener('submit', getDataTask);
-// startCountdown();
+
+class itemTask {
+  constructor(description, id, done = false) {
+    this.description = description;
+    this.id = id;
+    this.done = done
+  }
+}
