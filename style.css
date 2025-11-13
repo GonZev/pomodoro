@@ -36,6 +36,8 @@ header {
 main {
   display: flex;
   height: 80vh;
+  min-height: 500px;
+
   gap: 1rem;
   padding: 1em;
 }
@@ -127,7 +129,6 @@ main {
 
   text-align: center;
 
-  /* position: fixed; */
   right: 1rem;
 
   #add-task-button {
@@ -141,7 +142,7 @@ main {
     background-color: #ef4444;
     color: whitesmoke;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: clamp(1rem, 1vw + 0.2rem, 3rem);
 
     display: none;
   }
@@ -164,6 +165,7 @@ main {
 #task-container.expand {
   height: 70vh;
   width: 24vw;
+  min-height: 400px;
 
   #add-task-button {
     display: block;
@@ -193,7 +195,10 @@ main {
 }
 
 #table-task-container {
+  max-height: 80%;
   border: 1px solid black;
+  overflow-y: scroll;
+  scroll-behavior: auto;
 }
 
 .item-task {
@@ -277,7 +282,7 @@ button:hover {
   width: 60%;
   height: 4vh;
 
-  font-size: minmax(1rem, 1.5rem);
+  font-size: clamp(1rem, .5vw, 2rem);
   font-weight: bold;
 
   /* padding: auto; */
