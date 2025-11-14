@@ -21,6 +21,9 @@ const taskForm = document.getElementById('task-form');
 const closeTaskModalButton = document.getElementById('close-modal-task-button');
 let addTaskItem = false;
 
+const focusAudio = document.getElementById('focus-audio');
+const breakAudio = document.getElementById('break-audio');
+
 // tasks
 let arrayTask = []
 
@@ -39,11 +42,11 @@ function startCountdown() {
   if (intervalFocusID) {
     iconPlayButton.textContent = ""
     iconPlayButton.textContent = "play_arrow"
-
     clearInterval(intervalFocusID);
     intervalFocusID = null;
     return
   };
+  playSound('break-audio');
   iconPlayButton.textContent = ""
   iconPlayButton.textContent = "pause"
   intervalFocusID = setInterval(
@@ -65,21 +68,23 @@ function startCountdownBreak() {
   if (intervalBreakID) {
     iconPlayButton.textContent = ""
     iconPlayButton.textContent = "play_arrow"
-
     clearInterval(intervalBreakID);
     intervalBreakID = null;
     return
   };
+  playSound('focus-audio');
   iconPlayButton.textContent = ""
   iconPlayButton.textContent = "pause"
   intervalBreakID = setInterval(
     () => {
+      console.log(secondsRemainingBreak)
       if (secondsRemainingBreak <= 0) {
         clearInterval(intervalBreakID);
         secondaryTime.textContent = "00:00";
-
+        startCountdown();
         return;
       }
+      console.log(formatHour(secondsRemainingBreak))
       secondaryTime.textContent = formatHour(secondsRemainingBreak);
       secondsRemainingBreak--;
     }
@@ -92,7 +97,7 @@ function formatHour(seconds) {
   let minutesFormat
   let secondsFormat
   let minutesRemaining = Math.floor(seconds / 60);
-  let secondsOfminutes = secondsRemaining % 60;
+  let secondsOfminutes = seconds % 60;
 
   // si son mas de 60 minutos
   if (minutesRemaining >= 60) {
@@ -264,6 +269,20 @@ function saveDataCloseWindows() {
   if (addTaskItem) {
     saveData()
   }
+}
+
+function playSound(time) {
+  let audio;
+  if (time == 'break-audio') {
+    audio = breakAudio;
+    breakAudio.play()
+  } else {
+    audio = focusAudio;
+    focusAudio.play()
+  }
+  setTimeout(() => {
+    audio.pause();
+  }, 3500)
 }
 
 
