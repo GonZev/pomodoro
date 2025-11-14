@@ -1,72 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
-    <link href="./style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="./app.js" defer>
-    </script>
-  </head>
-  <body>
-    <header>
-      <h1>POMODORO</h1>
-    </header>
-    <main>
-      <div class="main-container" id="time-container">
-        <div id="settings">
-          <button>
-            <span class="material-icons">volume_up</span>
-          </button>
-          <button>
-            <span class="material-icons" id="settings-button">settings</span>
-          </button>
-        </div>
-        <div id="times">
-          <p id="principal-time">45:00</p>
-          <p id="secondary-time">5:00</p>
-        </div>
-        <div id="controls">
-          <button id="reset-button"><span class="material-icons">replay</span></button>
-          <button id="play-button"><span class="material-icons">play_arrow</span></button>
-        </div>
-      </div>
-      <div class="main-container" id="task-container">
-        <button id="arrow-task" class="material-icons">arrow_back_ios</button>
-        <h2>Task</h2>
-        <div id="table-task-container">
-        </div>
-        <button id="add-task-button" type="submit">Add Task</button>
-      </div>
-    </main>
-    <div id="settings-modal" class="modal">
-      <button id="close-modal-button">Close</button>
-      <form id="time-form">
-        <div id="focus-info">
-          <label for="focus-time">Focus time:</label>
-          <input id="focus-time" name="focus-time" type="time">
-        </div>
-        <div id="break-info">
-          <label for="break-time">Break time:</label>
-          <input id="break-time" name="break-time" type="time">
-        </div>
-        <button type="submit" class="submit-button">
-          Aceptar
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link href="./style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="./app.js" defer>
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>POMODORO</h1>
+  </header>
+  <main>
+    <div class="main-container" id="time-container">
+      <div id="settings">
+        <button>
+          <span class="material-icons">volume_up</span>
         </button>
-      </form>
-    </div>
-    <div id="task-modal" class="modal">
-      <button id="close-modal-task-button">Close</button>
-      <form id="task-form">
-        <div id="task-info">
-          <label for="description">Description:</label>
-          <input id="description" name="description" type="text">
-        </div>
-        <button type="submit" class="submit-button">
-          Aceptar
+        <button>
+          <span class="material-icons" id="settings-button">settings</span>
         </button>
-      </form>
+      </div>
+      <div id="times">
+        <p id="principal-time">45:00</p>
+        <p id="secondary-time">5:00</p>
+      </div>
+      <div id="controls">
+        <button id="reset-button"><span class="material-icons">replay</span></button>
+        <button id="play-button"><span class="material-icons">play_arrow</span></button>
+      </div>
     </div>
-  </body>
+    <div class="main-container" id="task-container">
+      <button id="arrow-task" class="material-icons">arrow_back_ios</button>
+      <h2>Task</h2>
+      <div id="table-task-container">
+      </div>
+      <button id="add-task-button" type="submit">Add Task</button>
+    </div>
+  </main>
+  <!-- SETTING'S MODAL -->
+  <div id="settings-modal" class="modal">
+    <button id="close-modal-button">Close</button>
+    <form id="time-form">
+      <div id="focus-info">
+        <label for="focus-time">Focus time</label>
+        <input id="focus-time" name="focus-time" type="time">
+      </div>
+      <div id="break-info">
+        <label for="break-time">Break time</label>
+        <input id="break-time" name="break-time" type="time">
+      </div>
+      <button type="submit" class="submit-button">
+        Aceptar
+      </button>
+    </form>
+  </div>
+  <!-- MAKER TASK's MODAL -->
+  <div id="task-modal" class="modal">
+    <button id="close-modal-task-button">Close</button>
+    <form id="task-form">
+      <div id="task-info">
+        <label for="description">Description:</label>
+        <input id="description" name="description" type="text">
+      </div>
+      <button type="submit" class="submit-button">
+        Aceptar
+      </button>
+    </form>
+  </div>
+</body>
+
 </html>
