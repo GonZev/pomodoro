@@ -1,3 +1,5 @@
+import { taskModel } from "./taskModel.js";
+
 const principalTime = document.getElementById("principal-time");
 const secondaryTime = document.getElementById("secondary-time");
 const taskContainer = document.getElementById("task-container")
@@ -17,6 +19,10 @@ const addTaskButton = document.getElementById('add-task-button');
 const taskModal = document.getElementById('task-modal');
 const taskForm = document.getElementById('task-form');
 const closeTaskModalButton = document.getElementById('close-modal-task-button');
+let addTaskItem = false;
+
+// tasks
+let arrayTask = []
 
 // minutes default
 let minutesFocus = 45;
@@ -92,7 +98,6 @@ function formatHour(seconds) {
   if (minutesRemaining >= 60) {
     hours = Math.floor(minutesRemaining / 60);
     minutesRemaining = minutesRemaining % 60;
-    console.log(minutesRemaining)
     hoursFormat = String(hours).padStart(2, '0');
     minutesFormat = String(minutesRemaining).padStart(2, '0');
     secondsFormat = String(secondsOfminutes).padStart(2, '0');
@@ -169,15 +174,18 @@ function getDataTask(event) {
   const data = new FormData(taskForm);
   const description = data.get('description');
   // TODO: save tasks in array and create from this.
-  addTask(description);
-
+  const identifierTask = crypto.randomUUID();
+  addTask(description, identifierTask);
+  arrayTask.push(new taskModel(identifierTask, description))
+  addTaskItem = true;
   switchSettings('none', 'task-modal')
 }
 
-function addTask(textDescription) {
+function addTask(textDescription, identifierTask, check = false) {
   let tableTask = document.getElementById('table-task-container')
   let item = document.createElement("div");
   item.classList.add('item-task');
+  item.id = identifierTask;
   const id = `done-${Math.random().toString(36).substring(2, 9)}`;
   // 2. Crear el input (checkbox button)
   const inputCheckbox = document.createElement('input');
@@ -185,6 +193,8 @@ function addTask(textDescription) {
   inputCheckbox.id = id;
   inputCheckbox.name = 'check'; // Usa el mismo nombre para agrupar los radios
   inputCheckbox.value = 'done';
+  inputCheckbox.checked = check;
+  inputCheckbox.addEventListener('change', () => { checkTask(inputCheckbox) })
 
   // 3. Crear el label
   const label = document.createElement('label');
@@ -208,7 +218,21 @@ function addTask(textDescription) {
 function deleteTask(button) {
   const elementChildToDelete = button.parentElement;
   const parentOfChild = elementChildToDelete.parentElement;
+  arrayTask = arrayTask.filter((item) =>
+    item.id != elementChildToDelete.id
+  )
   parentOfChild.removeChild(elementChildToDelete);
+  addTaskItem = true;
+}
+
+function checkTask(button) {
+  const task = button.parentElement;
+  arrayTask.forEach((item) => {
+    if (task.id == item.id) {
+      item.check = !item.check;
+    }
+  })
+  addTaskItem = true;
 }
 
 // NOTE:GENERALS FUNCTION
@@ -221,6 +245,33 @@ function switchSettings(display, modal) {
     taskModal.style.display = display;
   }
 }
+
+function saveData() {
+  const dataSerialized = JSON.stringify(arrayTask);
+  localStorage.removeItem('tasks');
+  localStorage.setItem('tasks', dataSerialized);
+}
+
+function loadData() {
+  const saveData = localStorage.getItem('tasks');
+  arrayTask = JSON.parse(saveData);
+  arrayTask.forEach(element => {
+    addTask(element.description, element.id, element.check)
+  });
+}
+
+function saveDataCloseWindows() {
+  if (addTaskItem) {
+    saveData()
+  }
+}
+
+
+// ---------------------------- // 
+
+window.addEventListener('beforeunload', saveDataCloseWindows);
+
+loadData();
 
 principalTime.textContent = formatHour(secondsRemaining);
 secondaryTime.textContent = formatHour(secondsRemainingBreak);
