@@ -179,12 +179,12 @@ function addTask(textDescription) {
   let item = document.createElement("div");
   item.classList.add('item-task');
   const id = `done-${Math.random().toString(36).substring(2, 9)}`;
-  // 2. Crear el input (radio button)
-  const inputRadio = document.createElement('input');
-  inputRadio.type = 'radio';
-  inputRadio.id = id;
-  inputRadio.name = 'check'; // Usa el mismo nombre para agrupar los radios
-  inputRadio.value = 'done';
+  // 2. Crear el input (checkbox button)
+  const inputCheckbox = document.createElement('input');
+  inputCheckbox.type = 'checkbox';
+  inputCheckbox.id = id;
+  inputCheckbox.name = 'check'; // Usa el mismo nombre para agrupar los radios
+  inputCheckbox.value = 'done';
 
   // 3. Crear el label
   const label = document.createElement('label');
@@ -197,7 +197,7 @@ function addTask(textDescription) {
   button.addEventListener('click', () => { deleteTask(button) });
 
   // 4. Montar la estructura: Añadir input y label al divTask
-  item.appendChild(inputRadio);
+  item.appendChild(inputCheckbox);
   item.appendChild(label);
   item.appendChild(button)
 
@@ -210,7 +210,6 @@ function deleteTask(button) {
   const parentOfChild = elementChildToDelete.parentElement;
   parentOfChild.removeChild(elementChildToDelete);
 }
-
 
 // NOTE:GENERALS FUNCTION
 

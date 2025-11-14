@@ -132,7 +132,7 @@ main {
   right: 1rem;
 
   #add-task-button {
-    margin: auto;
+    margin: 1rem auto;
     width: 50%;
     height: 8%;
 
@@ -196,26 +196,43 @@ main {
 
 #table-task-container {
   max-height: 80%;
-  border: 1px solid black;
   overflow-y: scroll;
   scroll-behavior: auto;
+
 }
+
+/* ITEM TASK */
+
+/* 
+  .item-task
+    input
+    label
+    button.delete-button
+*/
 
 .item-task {
   text-align: left;
   padding: .5rem;
   margin: .3rem;
 
-  border: 1px solid blue;
 
   input {
     margin: 10px;
+    accent-color: green;
   }
 
-  button {
-    margin: 10px;
-    visibility: hidden;
+  label {
+    margin-right: 1rem;
+    font-size: 1.2rem;
   }
+
+}
+
+.item-task input:checked+label {
+
+  color: darkgray;
+  font-style: italic;
+  text-decoration: line-through;
 }
 
 .item-task:hover {
@@ -223,6 +240,12 @@ main {
     visibility: visible;
   }
 }
+
+.delete-button {
+  margin: .5rem;
+  visibility: hidden;
+}
+
 
 
 /* TODO: change appearance of button radio */
